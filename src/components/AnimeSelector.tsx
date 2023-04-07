@@ -24,16 +24,15 @@ export default function AnimeSelector(props: SelectorProps) {
   return (
     <>
         {
-            animes != undefined ? (
+            animes !== undefined ? (
                 <Autocomplete
                     disablePortal
                     id="combo-box-demo"
                     options={animes}
-                    sx={{ width: 300 }}
+                    sx={{ width: 260 }}
                     renderInput={(params) => <TextField {...params} label="Animes" />}
                     onChange={(event, value) => {
                         const animeString: string = value === null ? "" : value;
-                        console.log(animeString);
                         props.setAnime(animeString);
                     }}
                 />
