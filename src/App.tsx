@@ -4,6 +4,8 @@ import { QuoteError, QuoteObject } from './helpers/Quote';
 import { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import CachedIcon from '@mui/icons-material/Cached';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import RedditIcon from '@mui/icons-material/Reddit';
 import AnimeSelector from './components/AnimeSelector';
 import AnimeSelectorComponent from './components/AnimeSelector.component';
 
@@ -40,7 +42,27 @@ function App() {
             quote != undefined ? quote.quote : error?.message
           }</p>
           <div className='QuoteReload'>
-            <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => setReload(true)}>
+            <IconButton color="primary" aria-label="share to twitter" component="label" onClick={() => {
+              if (quote != null) {
+                const tweet = `${quote!.quote}\n${quote!.character} (${quote!.anime})`;
+                tweet.length <= 280 ? appComponent.shareToTwitter(tweet) : console.log("To long to share on twitter!")
+              } else {
+                console.log("Nothing to share.")
+              }
+            }}>
+              <TwitterIcon />
+            </IconButton>
+            <IconButton color="primary" aria-label="share to twitter" component="label" onClick={() => {
+              if (quote != null) {
+                const post = `${quote!.quote}\n${quote!.character} (${quote!.anime})`;
+                appComponent.shareToReddit(post, "anime");
+              } else {
+                console.log("Nothing to share.")
+              }
+            }}>
+              <RedditIcon />
+            </IconButton>
+            <IconButton color="primary" aria-label="reload new quote" component="label" onClick={() => setReload(true)}>
               <CachedIcon />
             </IconButton>
           </div>

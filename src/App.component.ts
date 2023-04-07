@@ -19,6 +19,17 @@ class AppComponent {
             return quoteError;
         }
     }
+
+    shareToTwitter(text: string): void {
+        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+        window.open(url, '_blank', 'width=600,height=300');
+    }
+
+    shareToReddit(title: string, subreddit: string = "anime"): void {
+        const url = `https://www.reddit.com/r/${subreddit}/submit?title=${encodeURIComponent(title)}`;
+        window.open(url, '_blank', 'width=600,height=300');
+    }
+      
 }
 
 export default AppComponent;
