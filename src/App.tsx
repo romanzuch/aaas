@@ -27,19 +27,25 @@ function App() {
     appComponent.returnQuote(animeName).then((response) => {
       if (response instanceof QuoteObject) {
         setQuote(response);
+        const twitterIsDisabled = (response.quote.length + response.anime.length + response.character.length) > 280;
+        setTwitterIsDisabled(twitterIsDisabled);
+        setRedditIsDisabled(false);
       } else {
         setError(response);
+        setTwitterIsDisabled(true);
+        setRedditIsDisabled(true);
       }
     })
-    if (quote === null || quote === undefined) {
-      setTwitterIsDisabled(true);
-      setRedditIsDisabled(true);
-    } else if (quote !== null || quote !== undefined) {
-      const twitterIsDisabled = (quote!.quote.length + quote!.anime.length + quote!.character.length) > 280;
-      setTwitterIsDisabled(twitterIsDisabled);
-      setRedditIsDisabled(false);
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.code === 'KeyR') {
+        setReload(true);
+      }
     }
-    setReload(false);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      setReload(false);
+    };
   }, [reload, anime]);
   
 
